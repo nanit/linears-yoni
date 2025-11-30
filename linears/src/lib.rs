@@ -2,6 +2,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+#[allow(warnings)]
 mod bindings;
 pub mod owned;
 
@@ -83,7 +84,14 @@ impl Model {
     }
 
     pub fn predict(&self, features: &[f64]) -> f64 {
-        let mut fns: Vec<bindings::feature_node> = features.iter().enumerate().map(|(idx, val)| bindings::feature_node{index: (idx + 1) as _, value: *val}).collect();
+        let mut fns: Vec<bindings::feature_node> = features
+            .iter()
+            .enumerate()
+            .map(|(idx, val)| bindings::feature_node {
+                index: (idx + 1) as _,
+                value: *val,
+            })
+            .collect();
 
         if self.bias >= 0.0 {
             fns.push(bindings::feature_node {
@@ -96,7 +104,6 @@ impl Model {
             index: -1,
             value: 0f64,
         });
-
 
         unsafe { bindings::predict(self.model, fns.as_ptr()) }
     }

@@ -10,7 +10,10 @@ eyre = "0.6.8"
 tempfile = "3.3.0"
 
 [build-dependencies]
-bindgen = "0.66.1"
+bindgen = "0.72"
 cc = "1.0"
 git2 = "0.15.0"
 tempfile = "3.3.0"
+
+# Force newer clang-sys to fix libclang loading
+clang-sys = "1.8"
